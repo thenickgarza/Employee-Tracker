@@ -1,7 +1,6 @@
 const console_log = require('console.table');
 const db = require('./db/connection');
 const inquirer = require('inquirer');
-const { allowedNodeEnvironmentFlags, exit } = require('process');
 
 mainScreen = () => {
     return inquirer.prompt([
@@ -22,8 +21,7 @@ mainScreen = () => {
             ]
         }
     ]).then(function (answer) {
-        console.log(answer)
-        switch (answer) {
+        switch (answer.userOptions) {
             case 'View all departments':
                 viewDepartments();
                 break;
@@ -60,7 +58,6 @@ viewDepartments = () => {
 
     db.query(sql, (err, rows) => {
         if (err) throw err;
-        console.log(rows);
         console.table(rows);
         mainScreen();
     })
