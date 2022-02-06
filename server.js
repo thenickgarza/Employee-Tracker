@@ -2,6 +2,7 @@ const console_log = require('console.table');
 const db = require('./db/connection');
 const inquirer = require('inquirer');
 
+
 mainScreen = () => {
     return inquirer.prompt([
         {
@@ -63,4 +64,38 @@ viewDepartments = () => {
     })
 };
 
+viewEmployees = () => {
+    const sql = 'SELECT * FROM employee';
+
+    db.query(sql, (err, rows) => {
+        if (err) throw err;
+        console.table(rows);
+        mainScreen();
+    })
+};
+
+viewRoles = () => {
+    const sql = 'SELECT * FROM role';
+
+    db.query(sql, (err, rows) => {
+        if (err) throw err;
+        console.table (rows);
+        mainScreen();
+    })
+};
+
+addDepartment = () => {}
+
+addEmployee = () => {}
+
+addRole = () => {}
+
+updateRole = () => {}
+
+deleteEmployee = () => {}
+
+exit = () => {
+    connection.end();
+}
+ 
 mainScreen();
