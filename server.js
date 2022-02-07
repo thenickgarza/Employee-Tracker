@@ -84,8 +84,27 @@ viewRoles = () => {
     })
 };
 
-addDepartment = () => {}
-
+addDepartment = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'department',
+            message: 'What is the name of the deparment you would like to add?'
+        }
+    ]).then(function (answer) {
+        db.query(
+            `INSERT INTO department SET ?`,
+            {
+                name: answer.department
+            });
+            const sql = `SELECT * FROM department`;
+            db.query(sql, (err, rows) => {
+                if (err) throw err;
+                console.table(rows);
+                mainScreen();
+            })
+})
+};
 addEmployee = () => {}
 
 addRole = () => {}
