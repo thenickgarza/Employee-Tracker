@@ -227,7 +227,87 @@ addRole = () => {
     })
 };
 
-updateRole = () => {}
+updateRole = () => {
+    const sql = `SELECT * FROM role`
+    db.query(sql, (err, rows) => {
+        if (err) throw err;
+        console.table(rows)
+        console.log('Use the table determine the correct ID for the role you would like to update');
+
+        inquirer.prompt([
+            {
+                type: 'input',
+                name: 'roleId',
+                message: 'Enter the ID from the table above to select a role to update',
+                validate: input => {
+                    if(input) {
+                        return true;
+                    } else {
+                        console.log('You must enter a Id to continue');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'roleTitle',
+                message: 'Enter the new title for the role you would like to update',
+                validate: input => {
+                    if (input) {
+                        return true;
+                    } else {
+                        console.log('You need to enter a new title for the role to continue');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'roleSalary',
+                message: 'Enter the new salary for the role you would like to update',
+                validate: input => {
+                    if (input) {
+                        return true;
+                    } else {
+                        console.log('You need to enter the new salary for the updated role to continue');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'roleDepartmentId',
+                message: 'Please enter 1 for Logistics, 2 for Corporate, 3 for Management to update the department id',
+                validate: input => {
+                    if (input) {
+                        return true;
+                    } else {
+                        console.log('You must enter a department ID to continue');
+                        return false;
+                    }
+                }
+            }
+        ]).then(function (answers) {
+            console.log(answers)
+            db.query(
+                `UPDATE role SET title, salary, department_ id
+                WHERE id ?`,
+                {
+                    title: answers.roleTitle,
+                    salary: answers.roleSalary,
+                    department_id: answers.roleDepartmentId
+                },
+                {
+                    id: answers.roleId
+                });
+                const sql = `SELECT * FROM role`
+                db.query(sql, (err, rows) => {
+                    if (err) throw err;
+                    console.table(rows);
+                })
+        })
+    })
+};
 
 deleteEmployee = () => {}
 
